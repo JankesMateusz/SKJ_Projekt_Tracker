@@ -1,6 +1,9 @@
 import com.sun.security.ntlm.Server;
 
+import java.io.BufferedReader;
+import java.io.PrintWriter;
 import java.net.InetSocketAddress;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
@@ -13,59 +16,37 @@ import java.util.Set;
 
 public class ConnectionServer {
 
-    private ServerSocketChannel serverSocketChannel;
-    private Selector selector;
-
+    private ServerSocket serverSocket;
     private int port;
     private String ip;
 
 
-    public ConnectionServer(int port, String ip){
-        this.port = port;
-        this.ip = ip;
+    public ConnectionServer(Tracker tracker){
+        this.port = tracker.getPort();
+        this.ip = tracker.getIp();
     }
 
 
     public void initialize() throws Exception{
 
-        serverSocketChannel = ServerSocketChannel.open();
-        serverSocketChannel.configureBlocking(false);
-        serverSocketChannel.socket().bind(new InetSocketAddress(ip, port));
-        selector = Selector.open();
-        serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
+        InetSocketAddress address = new InetSocketAddress(ip, port);
+        serverSocket = new ServerSocket();
+        serverSocket.bind(address);
 
         serverLog("Server initialized at port: " + port);
-        serverLog("Bind address: " + serverSocketChannel.getLocalAddress());
+        serverLog("Bind address: " + serverSocket.getInetAddress());
         serverLog("Ready");
 
         serviceConnections();
 
     }
 
-    private void serviceConnections(){
+    private void serviceConnections()throws Exception{
 
-        boolean serverIsRunning = true;
-
-        while(serverIsRunning){
-            try{
-                selector.select();
-                Set<SelectionKey> keys = selector.selectedKeys();
-                Iterator<SelectionKey> iterator = keys.iterator();
-
-                while(iterator.hasNext()){
-                    SelectionKey key = iterator.next();
-                    iterator.remove();
-
-                    if(key.isAcceptable()){
-                        SocketChannel channel = serverSocketChannel.accept();
-                        channel.configureBlocking(false);
-                        channel.register(selector, SelectionKey.OP_READ);
-                        serverLog("Connection accepted");
-                    }
-                }
-            }catch(Exception e){
-                e.printStackTrace();
-            }
+        boolean serverRunning = true;
+        while(serverRunning){
+            Socket connection = serverSocket.accept();
+            serverLog("Connection established");
         }
     }
 

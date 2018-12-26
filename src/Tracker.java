@@ -1,16 +1,18 @@
 public class Tracker {
 
-    private String ip = "127.168.1.1";
-    private int port = 10000;
-
-    private ConnectionServer connectionServer;
+    private String ip;
+    private int port;
 
 
-    public Tracker(){
-        this.connectionServer = new ConnectionServer(port, ip);
+    public Tracker(String ip, int port){
+
+        this.ip = ip;
+        this.port = port;
     }
 
-    public void start()throws Exception{
-        connectionServer.initialize();
+    public String getIp(){return ip;}
+
+    public int getPort() {
+        return port;
     }
 }
