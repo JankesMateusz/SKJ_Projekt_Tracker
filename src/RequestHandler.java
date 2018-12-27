@@ -29,7 +29,9 @@ public class RequestHandler extends Thread{
                 String compiledRequest = request[0];
 
                 if(compiledRequest.equals("BYE")){
-                    System.out.println("DUPA");
+                    System.out.println("Closing Connection...");
+                    connectionToHandle.close();
+                    System.out.println("Closed");
                     break;
                 }
             }
