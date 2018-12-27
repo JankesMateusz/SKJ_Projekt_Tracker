@@ -1,6 +1,7 @@
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 
 public class ConnectionServer {
@@ -8,6 +9,7 @@ public class ConnectionServer {
     private ServerSocket serverSocket;
     private int port;
     private String ip;
+    private ArrayList<PeerInfo> peers;
 
 
     public ConnectionServer(Tracker tracker){
@@ -36,11 +38,18 @@ public class ConnectionServer {
         while(serverRunning){
             Socket connection = serverSocket.accept();
             serverLog("Connection established");
-            new RequestHandler(connection).start();
+            new RequestHandler(connection, this).start();
         }
     }
 
     private void serverLog(String msg){
         System.out.println(msg);
+    }
+
+    public void updatePeers(PeerInfo peerInfo){
+        if(!peers.contains(peerInfo)){
+            peers.add(peerInfo);
+            System.out.println(peers.get(0).toString());
+        }
     }
 }
