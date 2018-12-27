@@ -47,6 +47,7 @@ public class ConnectionServer {
         while(serverRunning){
             Socket connection = serverSocket.accept();
             serverLog("Connection established");
+            new RequestHandler(connection).start();
         }
     }
 
