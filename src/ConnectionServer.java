@@ -47,11 +47,5 @@ public class ConnectionServer {
     private void serverLog(String msg){
         System.out.println(msg);
     }
-
-    public void updatePeers(PeerInfo peerInfo){
-        if(!peers.contains(peerInfo)){
-            peers.add(peerInfo);
-            System.out.println(peers.get(0).toString());
-        }
-    }
+    
 }
