@@ -4,7 +4,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class RequestHandler extends Thread {
+public class RegistrationHandler extends Thread {
 
     private final String[] REQUESTS = {"GET", "UPDATE", "BYE"};
     private final String[] RESPONSES = {"OK", "Not found", "Invalid request"};
@@ -14,7 +14,7 @@ public class RequestHandler extends Thread {
     private PrintWriter out;
     private ArrayList<PeerInfo> peers;
 
-    public RequestHandler(Socket socket, ArrayList<PeerInfo> peers) throws Exception {
+    public RegistrationHandler(Socket socket, ArrayList<PeerInfo> peers) throws Exception {
 
         this.connectionToHandle = socket;
         this.peers = peers;

@@ -39,7 +39,7 @@ public class ConnectionServer {
         while(serverRunning){
             Socket connection = serverSocket.accept();
             serverLog("Connection established");
-            RequestHandler handler = new RequestHandler(connection, peers);
+            RegistrationHandler handler = new RegistrationHandler(connection, peers);
             handler.start();
         }
     }
