@@ -2,7 +2,7 @@
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-
+import java.util.ArrayList;
 
 
 public class ConnectionServer {
@@ -10,11 +10,13 @@ public class ConnectionServer {
     private ServerSocket serverSocket;
     private int port;
     private String ip;
+    private ArrayList<PeerInfo> peers;
 
 
     public ConnectionServer(Tracker tracker){
         this.port = tracker.getPort();
         this.ip = tracker.getIp();
+        peers = new ArrayList<>();
     }
 
 
@@ -29,7 +31,6 @@ public class ConnectionServer {
         serverLog("Ready");
 
         serviceConnections();
-
     }
 
     private void serviceConnections()throws Exception{
@@ -38,7 +39,8 @@ public class ConnectionServer {
         while(serverRunning){
             Socket connection = serverSocket.accept();
             serverLog("Connection established");
-            new RequestHandler(connection).start();
+            RequestHandler handler = new RequestHandler(connection, peers);
+            handler.start();
         }
     }
 
