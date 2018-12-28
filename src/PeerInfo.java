@@ -13,15 +13,15 @@ public class PeerInfo {
     }
 
 
-    public String getNumber() {
-        return number;
-    }
-
     public String getIp() {
         return ip;
     }
 
     public String getPort() {
         return port;
+    }
+
+    public String getNumber() {
+        return number;
     }
 }

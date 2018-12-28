@@ -1,4 +1,3 @@
-
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -39,6 +38,7 @@ public class ConnectionServer {
         while(serverRunning){
             Socket connection = serverSocket.accept();
             serverLog("Connection established");
+
             RegistrationHandler handler = new RegistrationHandler(connection, peers);
             handler.start();
         }
@@ -46,5 +46,12 @@ public class ConnectionServer {
 
     private void serverLog(String msg){
         System.out.println(msg);
+    }
+
+    public void updatePeers(PeerInfo peerInfo){
+        if(!peers.contains(peerInfo)){
+            peers.add(peerInfo);
+            System.out.println(peers.get(0).toString());
+        }
     }
 }
